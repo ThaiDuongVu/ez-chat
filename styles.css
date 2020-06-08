@@ -4,16 +4,52 @@ body {
 
     text-align: center;
     font-family: "Roboto", sans-serif;
+}
 
+#app {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
 }
 
-#send-form {
-    margin-top: 40rem;
+.message-received {
+    text-align: left;
+
+    font-size: 1rem;
+    font-family: "Roboto", sans-serif;
+
+    padding: .5rem;
+    margin-bottom: .5rem;
+    margin-right: 4rem;
+
+    border: 3px solid #00adb5;
+    border-radius: 1rem;
+
+    background-color:  #393e46;
+    color: #eeeeee;
+
+    width: 20rem;
+}
+
+.message-sent {
+    text-align: right;
+
+    font-size: 1rem;
+    font-family: "Roboto", sans-serif;
+
+    padding: .5rem;
+    margin-bottom: .5rem;
+    margin-right: 4rem;
+
+    border: 3px solid #eeeeee;
+    border-radius: 1rem;
+    
+    background-color: #00adb5;
+    color: #eeeeee;
+
+    width: 20rem;
 }
 
 #message-input {
@@ -30,17 +66,17 @@ body {
 }
 
 #send-button {
-    background-color: #00adb5;
-    color: #eeeeee;
-
-    border: 5px solid #eeeeee;
-    border-radius: .5rem;
+    font-size: 1rem;
+    font-family: "Roboto", sans-serif;
 
     padding: .5rem;
     margin: 1rem;
 
-    font-size: 1rem;
-    font-family: "Roboto", sans-serif;
+    border: 5px solid #eeeeee;
+    border-radius: .5rem;
+
+    background-color: #00adb5;
+    color: #eeeeee;
 }
 
 #send-button:hover {

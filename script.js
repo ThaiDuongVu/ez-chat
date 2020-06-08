@@ -4,21 +4,64 @@ const messages = document.getElementById("messages");
 const form = document.getElementById("send-form");
 const messageInput = document.getElementById("message-input");
 
-form.addEventListener("submit", (event) => {
-    event.preventDefault();
+const title = document.getElementById("title");
 
-    let message = messageInput.value;
-    socket.emit("send-message", message);
-    messageInput.value = "";
-});
+let userName;
 
-createNewMessage = (message) => {
+// Create a new text element to display the received message
+appendReceivedMessage = (message) => {
     const newMessage = document.createElement("div");
+    newMessage.classList.add("message-received");
     newMessage.textContent = message;
 
     messages.append(newMessage);
 }
 
-socket.on("chat-message", data => {
-    createNewMessage(data);
+// Create a new text element to display the sent message
+appendSentMessage = (message) => {
+    const newMessage = document.createElement("div");
+    newMessage.classList.add("message-sent");
+    newMessage.textContent = message;
+
+    messages.append(newMessage);
+}
+
+// Ask the user for name and display it
+setUserName = () => {
+    name = prompt("What's your name?");
+    appendSentMessage("You joined as " + name);
+
+    socket.emit("new-user", name);
+}
+
+// Send a message to the server
+sendMessage = (user) => {
+    if (user.message === "") {
+        return;
+    }
+
+    socket.emit("send-message", user);
+    messageInput.value = "";
+
+    appendSentMessage(user.message);
+}
+
+// Ask name when page load
+setUserName();
+
+// When send button is pressed
+form.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    sendMessage({name: name, message: messageInput.value});    
+});
+
+// When receive a new message
+socket.on("chat-message", (user) => {
+    appendReceivedMessage(user.name + ": " + user.message);
 })
+
+socket.on("user-connected", (name) => {
+    appendReceivedMessage(name + " joined");
+    title.textContent = "You're chatting with " + name;
+});
