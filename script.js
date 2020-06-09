@@ -1,7 +1,6 @@
 const socket = io("http://localhost:3000/");
 
 const title = document.getElementById("title");
-const currentUsersText = document.getElementById("current-users");
 
 const messages = document.getElementById("messages");
 
@@ -40,6 +39,15 @@ setUserName = () => {
     socket.emit("new-user", name);
 }
 
+// Change the user name
+changeUserName = () => {
+    let oldName = name;
+    name = prompt("What's your name?");
+    appendSentMessage("You changed your name to: " + name);
+
+    socket.emit("user-change-name", {oldName: oldName, newName: name});
+}
+
 // Send a message to the server
 sendMessage = (user) => {
     if (user.message === "") {
@@ -55,6 +63,27 @@ sendMessage = (user) => {
 // Ask for name when page load
 setUserName();
 
+// When user choose a name that is already taken
+socket.on("overlapping-name", (name) => {
+    alert("Name " + name + " is already taken!");
+
+    appendSentMessage("But that name is already taken");
+    setUserName();
+});
+
+// Change name button
+changeNameButton.addEventListener("click", () => {
+    changeUserName();
+});
+
+// When user update to an already taken name
+socket.on("overlapping-update-name", (names) => {
+    alert("Name " + names.newName + " is already taken");
+
+    appendSentMessage("But that name is already taken");
+    changeUserName();
+});
+
 // When send button is pressed
 form.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -62,27 +91,14 @@ form.addEventListener("submit", (event) => {
     sendMessage({name: name, message: messageInput.value});    
 });
 
-// Change name button
-changeNameButton.addEventListener("click", () => {
-    let oldName = name;
-    name = prompt("What's your name?");
-    appendSentMessage("You changed your name to: " + name);
-
-    socket.emit("user-change-name", {oldName: oldName, newName: name});
-});
-
 // When receive a new message
 socket.on("chat-message", (user) => {
     appendReceivedMessage(user.name + ": " + user.message);
 })
 
+// When a new user is connected
 socket.on("user-connected", (users) => {
     appendReceivedMessage(users[users.length - 1] + " joined");
-
-    currentUsersText.textContent = "Current users: ";
-    users.forEach(user => {
-        currentUsersText.textContent += user + ", ";
-    });
 });
 
 // When a user name is updated
@@ -90,6 +106,7 @@ socket.on("update-name", (names) => {
     appendReceivedMessage(names.oldName + " changed his/her name to: " + names.newName);
 });
 
+// When a user is disconnected
 socket.on("user-disconnected", (name) => {
     appendReceivedMessage(name + " disconnected");
 });

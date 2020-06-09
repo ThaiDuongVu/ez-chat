@@ -16,10 +16,23 @@ io.on("connection", socket => {
 
     // When a new user is connected
     socket.on("new-user", (name) => {
-        users.push(name);
-        idNames[socket.id] = name;
+        let overlapName = false;
 
-        socket.broadcast.emit("user-connected", users);
+        // Check if chosen name is already taken
+        users.forEach(user => {
+            if (name === user) {
+                socket.emit("overlapping-name", name);
+                overlapName = true;
+                return;
+            }
+        });
+
+        if (!overlapName) {
+            users.push(name);
+            idNames[socket.id] = name;
+
+            socket.broadcast.emit("user-connected", users);
+        }
     });
 
     // When a send message event is received
@@ -29,13 +42,25 @@ io.on("connection", socket => {
 
     // When a user change their user name
     socket.on("user-change-name", (names) => {
-        socket.broadcast.emit("update-name", names);
+        let overlapName = false;
+
+        users.forEach(user => {
+            if (names.newName === user) {
+                overlapName = true;
+                socket.emit("overlapping-update-name", names);
+                return;
+            }
+        });
+
+        if (!overlapName) {
+            socket.broadcast.emit("update-name", names);
         
-        idNames[socket.id] = names.newName;
-        
-        for (let i = 0; i < users.length; i++) {
-            if (users[i] === names.oldName) {
-                users[i] = names.newName;
+            idNames[socket.id] = names.newName;
+            
+            for (let i = 0; i < users.length; i++) {
+                if (users[i] === names.oldName) {
+                    users[i] = names.newName;
+                }
             }
         }
     });
