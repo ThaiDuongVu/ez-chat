@@ -1,11 +1,14 @@
 const socket = io("http://localhost:3000/");
 
+const title = document.getElementById("title");
+const currentUsersText = document.getElementById("current-users");
+
 const messages = document.getElementById("messages");
+
 const form = document.getElementById("send-form");
 const messageInput = document.getElementById("message-input");
-const changeNameButton = document.getElementById("change-name-button");
 
-const title = document.getElementById("title");
+const changeNameButton = document.getElementById("change-name-button");
 
 let userName = "";
 
@@ -30,8 +33,10 @@ appendSentMessage = (message) => {
 // Ask the user for name and display it
 setUserName = () => {
     name = prompt("What's your name?");
+
     appendSentMessage("You joined as: " + name);
 
+    title.textContent = "Your current user name is: " + name;    
     socket.emit("new-user", name);
 }
 
@@ -44,7 +49,7 @@ sendMessage = (user) => {
     socket.emit("send-message", user);
     messageInput.value = "";
 
-    appendSentMessage(user.message);
+    appendSentMessage("You: " + user.message);
 }
 
 // Ask for name when page load
@@ -57,6 +62,7 @@ form.addEventListener("submit", (event) => {
     sendMessage({name: name, message: messageInput.value});    
 });
 
+// Change name button
 changeNameButton.addEventListener("click", () => {
     let oldName = name;
     name = prompt("What's your name?");
@@ -72,10 +78,18 @@ socket.on("chat-message", (user) => {
 
 socket.on("user-connected", (users) => {
     appendReceivedMessage(users[users.length - 1] + " joined");
-    title.textContent = "You're chatting with: " + users[users.length - 1];
+
+    currentUsersText.textContent = "Current users: ";
+    users.forEach(user => {
+        currentUsersText.textContent += user + ", ";
+    });
 });
 
+// When a user name is updated
 socket.on("update-name", (names) => {
     appendReceivedMessage(names.oldName + " changed his/her name to: " + names.newName);
-    title.textContent = "You're chatting with: " + names.newName;
-})
+});
+
+socket.on("user-disconnected", (name) => {
+    appendReceivedMessage(name + " disconnected");
+});

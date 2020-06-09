@@ -14,6 +14,10 @@ body {
     min-height: 100vh;
 }
 
+#current-users {
+    font-size: 1rem;
+}
+
 .message-received {
     text-align: left;
 
@@ -42,6 +46,7 @@ body {
     font-family: "Roboto", sans-serif;
 
     padding: .5rem;
+    /* margin-bottom: .5rem; */
     margin-bottom: .5rem;
     margin-left: 4rem;
     margin-right: 4rem;
@@ -61,7 +66,8 @@ body {
     font-family: "Roboto", sans-serif;
 
     padding: .5rem;
-    /* margin: 1rem; */
+    /* margin-right: 1rem; */
+    margin-bottom: .5rem;
 
     border: 5px solid #00adb5;
     border-radius: .5rem;
@@ -74,7 +80,8 @@ body {
     font-family: "Roboto", sans-serif;
 
     padding: .5rem;
-    /* margin: 1rem; */
+    margin-right: 1rem;
+    margin-bottom: .5rem;
 
     border: 5px solid #eeeeee;
     border-radius: .5rem;
@@ -95,7 +102,8 @@ body {
     font-family: "Roboto", sans-serif;
 
     padding: .5rem;
-    /* margin: 1rem; */
+    /* margin-left: 1rem; */
+    margin-bottom: .5rem;
 
     border: 5px solid #eeeeee;
     border-radius: .5rem;
