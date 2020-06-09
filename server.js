@@ -44,6 +44,7 @@ io.on("connection", socket => {
     socket.on("user-change-name", (names) => {
         let overlapName = false;
 
+        // Check if changed name is already taken
         users.forEach(user => {
             if (names.newName === user) {
                 overlapName = true;
@@ -71,7 +72,7 @@ io.on("connection", socket => {
     });
 });
 
-app.use(express.static(__dirname));
+app.use(express.static("public"));
 app.get("/", (req, res) => {
     res.sendFile(__dirname + "/index.html");
 });
