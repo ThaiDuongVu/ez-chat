@@ -73,49 +73,36 @@ body {
     border-radius: .5rem;
 
     width: 20rem;
+    word-wrap: break-word;
+}
+
+button {
+    font-family: "Roboto", sans-serif;
+
+    padding: .5rem;
+    margin-bottom: .5rem;
+
+    border: 5px solid #eeeeee;
+    border-radius: .5rem;
+
+    background-color: #00adb5;
+    color: #eeeeee;
+}
+
+button:hover {
+    background-color: #eeeeee;
+    color: #222831;
+
+    border: 5px solid #00adb5;
 }
 
 #send-button {
     font-size: 1.5rem;
-    font-family: "Roboto", sans-serif;
-
-    padding: .5rem;
     margin-right: 1rem;
-    margin-bottom: .5rem;
-
-    border: 5px solid #eeeeee;
-    border-radius: .5rem;
-
-    background-color: #00adb5;
-    color: #eeeeee;
-}
-
-#send-button:hover {
-    background-color: #eeeeee;
-    color: #222831;
-
-    border: 5px solid #00adb5;
 }
 
 #change-name-button {
     font-size: 1rem;
-    font-family: "Roboto", sans-serif;
-
-    padding: .5rem;
     margin-left: 1rem;
-    margin-bottom: .5rem;
-
-    border: 5px solid #eeeeee;
-    border-radius: .5rem;
-
-    background-color: #00adb5;
-    color: #eeeeee;
-}
-
-#change-name-button:hover {
-    background-color: #eeeeee;
-    color: #222831;
-
-    border: 5px solid #00adb5;
 }
 

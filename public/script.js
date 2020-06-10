@@ -11,13 +11,32 @@ const changeNameButton = document.getElementById("change-name-button");
 
 let userName = "";
 
+// Let the browser speak the message
+speakMessage = (message) => {
+    let speech = new SpeechSynthesisUtterance();
+    
+    speech.text = message;
+    speech.pitch = 1;
+    speech.rate = 1;
+    speech.volume = 1;
+
+    window.speechSynthesis.speak(speech);
+}
+
 // Create a new text element to display the received message
 appendReceivedMessage = (message) => {
     const newMessage = document.createElement("div");
     newMessage.classList.add("message-received");
     newMessage.textContent = message;
 
+    const speakButton = document.createElement("button");
+    speakButton.textContent = "Speak";
+
     messages.append(newMessage);
+    messages.append(speakButton);
+    speakButton.addEventListener("click", () => {
+        speakMessage(message);
+    });
 }
 
 // Create a new text element to display the sent message
