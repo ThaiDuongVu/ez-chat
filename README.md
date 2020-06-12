@@ -11,3 +11,5 @@ Requirements: npm, express (npm module), socket.io (npm module)
 4. If you start on a local server, go to "http://localhost:3000/" on your browser to register as a user.
 5. Open another tab and also go to "http://localhost:3000/" to register as another user.
 6. Start chatting!
+
+7. To stop the server: Go back to the terminal and "Ctrl-C".
